@@ -1,4 +1,4 @@
-# 🚀 EC2 DNV Class
+# 🚀 Kubeadm EC2
 
 ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
@@ -12,6 +12,7 @@
 ## 📋 Table of Contents
 
 - [✨ Overview](#-overview)
+- [📈 Progress](#-progress)
 - [🧰 Prerequisites](#-prerequisites)
 - [🚀 Getting Started](#-getting-started)
 - [🔑 Retrieve Your Key Pair](#-retrieve-your-key-pair)
@@ -30,6 +31,23 @@ This project uses **Terraform** to deploy:
 - ⚙️ **Worker** Auto Scaling Group (`t3.micro`)
 - 🔐 A generated RSA **key pair** (`ec2-key`)
 - 🌐 A VPC with private subnets and an SSH security group
+
+---
+
+## 📈 Progress
+
+Progress toward a **self-hosted Kubernetes cluster** built with **kubeadm** on **EC2 at AWS**.
+
+- [x] Provision control-plane and worker EC2 instances via Terraform
+- [x] Auto Scaling Groups for control-plane and worker nodes
+- [x] Generated SSH key pair for node access
+- [x] VPC with private subnets and SSH security groups
+- [ ] Install container runtime (containerd) on all nodes
+- [ ] Install `kubeadm`, `kubelet`, and `kubectl`
+- [ ] Initialize the control-plane with `kubeadm init`
+- [ ] Install a CNI plugin (e.g. Calico / Flannel)
+- [ ] Join worker nodes with `kubeadm join`
+- [ ] Verify cluster health (`kubectl get nodes`)
 
 ---
 

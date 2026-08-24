@@ -1,3 +1,9 @@
+locals {
+  asg_tags_dict = [for key, value in var.auto_scalling_group.instance_tags : {
+    key   = key
+    value = value
+  }]
+}
 resource "aws_autoscaling_group" "this" {
   name                      = var.auto_scalling_group.name
   max_size                  = var.auto_scalling_group.max_size
@@ -5,7 +11,7 @@ resource "aws_autoscaling_group" "this" {
   desired_capacity          = var.auto_scalling_group.desired_capacity
   health_check_grace_period = var.auto_scalling_group.health_check_grace_period
   health_check_type         = var.auto_scalling_group.health_check_type
-  vpc_zone_identifier       = var.vpc_zone_identifier
+  vpc_zone_identifier       = var.auto_scalling_group.vpc_zone_identifier
 
   launch_template {
     name    = aws_launch_template.this.name
@@ -17,16 +23,33 @@ resource "aws_autoscaling_group" "this" {
     max_healthy_percentage = var.auto_scalling_group.instance_maintenance_policy.max_healthy_percentage
   }
 
-  tag {
-    key                 = "Environment"
-    value               = var.tags.Environment
-    propagate_at_launch = true
+  dynamic "tag" {
+    for_each = local.asg_tags_dict
+
+    content {
+      key                 = tag.key
+      value               = tag.value.value
+      propagate_at_launch = true
+    }
+
   }
 
-  tag {
-    key                 = "Project"
-    value               = var.tags.Project
-    propagate_at_launch = true
-  }
+  #tag {
+  #  key                 = "Environment"
+  #  value               = var.tags.Environment
+  #  propagate_at_launch = true
+  #}
+
+  #tag {
+  #  key                 = "Project"
+  #  value               = var.tags.Project
+  #  propagate_at_launch = false
+  #}
+
+  #tag { 
+  #  key     = "Patch Group"
+  #  value   = "Production"
+  #  propagate_at_launch = flase
+  #}
 
 }

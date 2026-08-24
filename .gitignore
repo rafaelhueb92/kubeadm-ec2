@@ -4,3 +4,4 @@
 *.pem
 *.tfstate
 terraform.tfstate.backup
+.abacusai/

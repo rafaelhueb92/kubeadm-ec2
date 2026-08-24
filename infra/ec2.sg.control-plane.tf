@@ -1,5 +1,5 @@
-resource "aws_security_group" "allow_ssh" {
-  name        = "allow-ssh"
+resource "aws_security_group" "control_plane" {
+  name        = var.ec2_info.control_plane_sg
   description = "Allow SSH inbound traffic"
   vpc_id      = module.network.vpc_id
 
