@@ -19,3 +19,24 @@ resource "aws_iam_role" "role" {
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.policy_document.json
 }
+
+resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core" {
+  role       = aws_iam_role.role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+data "aws_iam_policy_document" "write_patching_logs" {
+  statement {
+    actions = ["s3:PutObject"]
+    effect  = "Allow"
+    resources = [
+      "${aws_s3_bucket.logs.arn}/*"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "write_patching_logs" {
+  name   = "write-patching-logs"
+  role   = aws_iam_role.role.id
+  policy = data.aws_iam_policy_document.write_patching_logs.json
+}

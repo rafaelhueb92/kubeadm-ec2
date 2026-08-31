@@ -249,3 +249,8 @@ variable "patching_logs_bucket" {
     force_destroy = true
   }
 }
+
+variable "bucket_ssm" {
+  type    = string
+  default = "not-so-simple-ssm"
+}
