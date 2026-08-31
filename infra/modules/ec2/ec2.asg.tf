@@ -1,9 +1,3 @@
-locals {
-  asg_tags_dict = [for key, value in var.auto_scalling_group.instance_tags : {
-    key   = key
-    value = value
-  }]
-}
 resource "aws_autoscaling_group" "this" {
   name                      = var.auto_scalling_group.name
   max_size                  = var.auto_scalling_group.max_size
@@ -24,11 +18,11 @@ resource "aws_autoscaling_group" "this" {
   }
 
   dynamic "tag" {
-    for_each = local.asg_tags_dict
+    for_each = var.auto_scalling_group.instance_tags
 
     content {
       key                 = tag.key
-      value               = tag.value.value
+      value               = tag.value
       propagate_at_launch = true
     }
 

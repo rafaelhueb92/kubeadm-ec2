@@ -1,0 +1,12 @@
+---
+- name: Adding Public Signing Key for Kubernetes
+  apt_key:
+    url: https://pkgs.k8s.io/core:/stable:/v1.37/deb/Release.key
+    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+- name: Add Kubernetes Repository
+  copy:
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    content: |
+      deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.37/deb/
+    mode: "0644"

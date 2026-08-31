@@ -20,3 +20,5 @@ aws ec2 get-console-output \
 
    terraform apply -replace=module.ec2_control_plane_instance.aws_autoscaling_group.this \
                    -replace=module.ec2_worker_instance.aws_autoscaling_group.this
+
+aws ssm start-session --target <ec2-id> 
