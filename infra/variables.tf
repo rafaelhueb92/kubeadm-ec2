@@ -55,9 +55,9 @@ variable "control_plane_auto_scalling_group" {
   })
   default = {
     name                      = "production-asg-control-plane"
-    max_size                  = 5
-    min_size                  = 2
-    desired_capacity          = 4
+    max_size                  = 0 #5
+    min_size                  = 0 #2
+    desired_capacity          = 0 #4
     health_check_grace_period = 180
     health_check_type         = "EC2"
     instance_tags = {
@@ -115,9 +115,9 @@ variable "worker_auto_scalling_group" {
   })
   default = {
     name                      = "production-asg-worker"
-    max_size                  = 5
-    min_size                  = 2
-    desired_capacity          = 4
+    max_size                  = 0 #5
+    min_size                  = 0 #2
+    desired_capacity          = 0 #4
     health_check_grace_period = 180
     health_check_type         = "EC2"
     instance_tags = {

@@ -1,4 +1,12 @@
 ---
+- name: Remove stale malformed Kubernetes repository files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/pkgs_k8s_io_core_stable_v1_37_deb.list
+    - /etc/apt/sources.list.d/kubernetes.list
+
 - name: Installing Dependency Packages
   apt:
     name:
@@ -6,4 +14,7 @@
       - ca-certificates
       - curl
       - gpg
-    update_cache: yes
+      - software-properties-common
+    state: present
+    update_cache: true
+  become: true

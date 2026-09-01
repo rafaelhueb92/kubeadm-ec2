@@ -1,0 +1,4 @@
+- name: Start CRI-O
+  systemd_service:
+    state: started
+    name: crio

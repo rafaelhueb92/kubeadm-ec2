@@ -1,8 +1,8 @@
 ---
 - name: Hold Kubectl, Kubeadm, and Kubelet
-  dpkg.selections:
+  dpkg_selections:
     name: "{{ item }}"
-    selections: hold
+    selection: hold
   loop:
     - kubectl
     - kubeadm
