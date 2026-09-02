@@ -4,6 +4,7 @@ resource "aws_autoscaling_group" "this" {
   min_size                  = var.auto_scalling_group.min_size
   desired_capacity          = var.auto_scalling_group.desired_capacity
   health_check_grace_period = var.auto_scalling_group.health_check_grace_period
+  target_group_arns         = var.auto_scalling_group.target_group_arns
   health_check_type         = var.auto_scalling_group.health_check_type
   vpc_zone_identifier       = var.auto_scalling_group.vpc_zone_identifier
 

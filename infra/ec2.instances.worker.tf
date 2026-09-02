@@ -24,6 +24,7 @@ module "ec2_worker_instance" {
     health_check_grace_period = var.worker_auto_scalling_group.health_check_grace_period
     health_check_type         = var.worker_auto_scalling_group.health_check_type
     vpc_zone_identifier       = module.network.private_subnet_ids
+    target_group_arns         = []
     instance_tags = merge(
       var.tags,
       { PatchGroup = var.patch_group },

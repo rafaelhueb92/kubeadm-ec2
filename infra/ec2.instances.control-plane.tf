@@ -26,6 +26,7 @@ module "ec2_control_plane_instance" {
     health_check_grace_period = var.control_plane_auto_scalling_group.health_check_grace_period
     health_check_type         = var.control_plane_auto_scalling_group.health_check_type
     vpc_zone_identifier       = module.network.private_subnet_ids
+    target_group_arns         = [aws_lb_target_group.nlb_tcp.arn]
     instance_tags = merge(
       var.tags,
       { PatchGroup = var.patch_group },

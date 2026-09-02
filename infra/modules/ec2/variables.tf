@@ -13,7 +13,8 @@ variable "auto_scalling_group" {
     health_check_grace_period = number
     health_check_type         = string
     vpc_zone_identifier       = list(string)
-    instance_tags = map(string)
+    target_group_arns         = list(string)
+    instance_tags             = map(string)
     instance_maintenance_policy = object({
       min_healthy_percentage = number
       max_healthy_percentage = number
@@ -32,10 +33,10 @@ variable "launch_template" {
       volume_size           = number
       delete_on_termination = bool
     })
-    user_data                           = string
-    key_name                            = string
-    image_id                            = string
-    instance_profile_name               = string
-    vpc_security_group_ids              = list(string)
+    user_data              = string
+    key_name               = string
+    image_id               = string
+    instance_profile_name  = string
+    vpc_security_group_ids = list(string)
   })
 }

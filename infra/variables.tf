@@ -55,9 +55,9 @@ variable "control_plane_auto_scalling_group" {
   })
   default = {
     name                      = "production-asg-control-plane"
-    max_size                  = 0 #5
-    min_size                  = 0 #2
-    desired_capacity          = 0 #4
+    max_size                  = 5
+    min_size                  = 2
+    desired_capacity          = 4
     health_check_grace_period = 180
     health_check_type         = "EC2"
     instance_tags = {
@@ -115,9 +115,9 @@ variable "worker_auto_scalling_group" {
   })
   default = {
     name                      = "production-asg-worker"
-    max_size                  = 0 #5
-    min_size                  = 0 #2
-    desired_capacity          = 0 #4
+    max_size                  = 5
+    min_size                  = 2
+    desired_capacity          = 4
     health_check_grace_period = 180
     health_check_type         = "EC2"
     instance_tags = {
@@ -253,4 +253,61 @@ variable "patching_logs_bucket" {
 variable "bucket_ssm" {
   type    = string
   default = "not-so-simple-ssm"
+}
+
+variable "nlb_control_plane" {
+  type = object({
+    name                       = string
+    internal                   = bool
+    load_balancer_type         = string
+    enable_deletion_protection = bool
+  })
+  default = {
+    name                       = "production-control-plane-nlb"
+    internal                   = true
+    load_balancer_type         = "network"
+    enable_deletion_protection = false
+  }
+}
+
+variable "nlb_control_plane_listener" {
+  type = object({
+    port     = number
+    protocol = string
+  })
+  default = {
+    port     = 6443
+    protocol = "TCP"
+  }
+}
+
+variable "nlb_control_plane_target_group" {
+  type = object({
+    name               = string
+    port               = number
+    target_type        = string
+    protocol           = string
+    preserve_client_ip = bool
+    health_check = object({
+      healthy_threshold   = number
+      interval            = number
+      protocol            = string
+      timeout             = number
+      unhealthy_threshold = number
+    })
+  })
+  default = {
+    name               = "prod-cp-tg-default"
+    port               = 6443
+    target_type        = "instance"
+    protocol           = "TCP"
+    preserve_client_ip = false
+    health_check = {
+      healthy_threshold   = 3
+      interval            = 30
+      protocol            = "TCP"
+      timeout             = 10
+      unhealthy_threshold = 3
+    }
+  }
 }
