@@ -1,0 +1,14 @@
+---
+- name: Check if node is already a cluster member
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf
+
+- name: Copy join template File
+  vars:
+    terraform_outputs: "{{ lookup('file', terraform_dir + '/outputs.json') | from_json }}"
+    nlb_dns_name: "{{ terraform_outputs.nlb_dns_name.value }}"
+  template:
+    src: kubeadm-join.j2
+    dest: /home/admin/kubeadm-join.yml
+  when: not kubelet_conf.stat.exists

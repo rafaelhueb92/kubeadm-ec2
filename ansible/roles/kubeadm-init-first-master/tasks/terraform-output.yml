@@ -1,0 +1,9 @@
+---
+- name: Terraform Output
+  shell: terraform output -json > outputs.json
+  args:
+    chdir: "{{ terraform_dir }}"
+  delegate_to: localhost
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"

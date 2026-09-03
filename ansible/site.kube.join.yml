@@ -1,0 +1,6 @@
+---
+- name: Joining Remaining Control Planes to Kubernetes Cluster
+  hosts: control_planes
+  become: true
+  roles:
+    - kubeadm-join-control-plane

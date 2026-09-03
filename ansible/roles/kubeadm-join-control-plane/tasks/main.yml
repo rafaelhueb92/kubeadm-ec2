@@ -1,0 +1,12 @@
+---
+- include_tasks: terraform-output.yml
+  when: inventory_hostname == groups.control_planes[0]
+
+- include_tasks: gather-credentials.yml
+  when: inventory_hostname == groups.control_planes[0]
+
+- include_tasks: upload-template.yml
+  when: inventory_hostname != groups.control_planes[0]
+
+- include_tasks: kubeadm-join.yml
+  when: inventory_hostname != groups.control_planes[0]

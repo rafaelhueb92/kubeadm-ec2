@@ -1,0 +1,1 @@
+aws ssm start-session --target i-01f3f44e621d344c3

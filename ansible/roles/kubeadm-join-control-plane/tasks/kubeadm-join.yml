@@ -1,0 +1,15 @@
+---
+- name: Check if node is already a cluster member
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf
+
+- name: Join node as control plane
+  shell: kubeadm join --config /home/admin/kubeadm-join.yml
+  register: kubeadm_join_output
+  when: not kubelet_conf.stat.exists
+
+- name: Kubeadm Join Output
+  debug:
+    var: kubeadm_join_output.stdout_lines
+  when: not kubelet_conf.stat.exists

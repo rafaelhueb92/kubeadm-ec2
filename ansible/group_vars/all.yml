@@ -1,2 +1,5 @@
 ansible_connection: aws_ssm
 ansible_aws_ssm_bucket_name: not-so-simple-ssm
+terraform_dir: /Users/rafaelhueb/Desktop/projects/ec2-dnv-class/infra
+aws_region: us-east-1
+aws_profile: default

@@ -87,7 +87,7 @@ variable "control_plane_launch_template" {
     name                                 = "production-debian-control-plane-lt"
     disabling_api_termination            = true
     disable_api_stop                     = true
-    instance_type                        = "t3.micro"
+    instance_type                        = "t3.medium"
     instance_initiated_shutdown_behavior = "terminate"
     user_data                            = "./cli/control-plane-user-data.sh"
     ebs = {
@@ -147,7 +147,7 @@ variable "worker_launch_template" {
     name                                 = "production-debian-worker-lt"
     disabling_api_termination            = true
     disable_api_stop                     = true
-    instance_type                        = "t3.micro"
+    instance_type                        = "t3.medium"
     instance_initiated_shutdown_behavior = "terminate"
     ebs = {
       volume_size           = 20

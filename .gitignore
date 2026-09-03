@@ -6,3 +6,6 @@
 terraform.tfstate.backup
 .abacusai/
 *.pkg
+outputs.json
+infra/outputs.json
+**/outputs.json
