@@ -115,9 +115,9 @@ variable "worker_auto_scalling_group" {
   })
   default = {
     name                      = "production-asg-worker"
-    max_size                  = 5
-    min_size                  = 2
-    desired_capacity          = 4
+    max_size                  = 2
+    min_size                  = 1
+    desired_capacity          = 2
     health_check_grace_period = 180
     health_check_type         = "EC2"
     instance_tags = {

@@ -1,8 +1,34 @@
 ---
-- name: Creating Kube Adm Kubernetes Cluster
+- name: Setting up Cluster
   hosts: aws_ec2
   become: true
   roles:
+    - hostanames
     - dependency-packages
     - kube-packages
     - container-runtime
+
+- name: KubeAdm Init First Control Plane
+  hosts: control_planes[0]
+  become: true
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  roles:
+    - init-cluster
+    - container-network
+
+- name: Join Control Plane Nodes to Cluster
+  hosts: control_planes[1:]
+  become: true
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  roles:
+    - join-control-planes
+
+- name: Join Worker Nodes to Cluster
+  hosts: workers
+  become: true
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  roles:
+    - join-workers
