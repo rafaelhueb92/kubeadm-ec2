@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "this" {
   name = var.ec2_info.instance_profile_name
-  role = aws_iam_role.role.name
+  role = aws_iam_role.instance_role.name
 }
 
 data "aws_iam_policy_document" "policy_document" {
@@ -14,14 +14,14 @@ data "aws_iam_policy_document" "policy_document" {
   }
 }
 
-resource "aws_iam_role" "role" {
+resource "aws_iam_role" "instance_role" {
   name               = var.ec2_info.role_name
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.policy_document.json
 }
 
 resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core" {
-  role       = aws_iam_role.role.name
+  role       = aws_iam_role.instance_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
@@ -37,6 +37,6 @@ data "aws_iam_policy_document" "write_patching_logs" {
 
 resource "aws_iam_role_policy" "write_patching_logs" {
   name   = "write-patching-logs"
-  role   = aws_iam_role.role.id
+  role   = aws_iam_role.instance_role.id
   policy = data.aws_iam_policy_document.write_patching_logs.json
 }

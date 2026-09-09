@@ -5,3 +5,11 @@ output "launch_template_name" {
 output "auto_scalling_group_name" {
   value = aws_autoscaling_group.this.name
 }
+
+output "auto_scalling_group_arn" {
+  value = aws_autoscaling_group.this.arn
+}
+
+output "launch_template_id" {
+  value = aws_launch_template.this.id
+}

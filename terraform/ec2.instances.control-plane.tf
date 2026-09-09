@@ -27,10 +27,12 @@ module "ec2_control_plane_instance" {
     health_check_type         = var.control_plane_auto_scalling_group.health_check_type
     vpc_zone_identifier       = module.network.private_subnet_ids
     target_group_arns         = [aws_lb_target_group.nlb_tcp.arn]
+    suspended_processes       = ["AZRebalance"]
     instance_tags = merge(
       var.tags,
       { PatchGroup = var.patch_group },
-      var.control_plane_auto_scalling_group.instance_tags
+      var.control_plane_auto_scalling_group.instance_tags,
+      { "kubernetes.io/cluster/${local.cluster_name}" = "owned" }
     )
     instance_maintenance_policy = {
       min_healthy_percentage = var.control_plane_auto_scalling_group.instance_maintenance_policy.min_healthy_percentage

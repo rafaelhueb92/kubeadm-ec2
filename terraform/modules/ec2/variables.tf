@@ -15,6 +15,7 @@ variable "auto_scalling_group" {
     vpc_zone_identifier       = list(string)
     target_group_arns         = list(string)
     instance_tags             = map(string)
+    suspended_processes       = list(string)
     instance_maintenance_policy = object({
       min_healthy_percentage = number
       max_healthy_percentage = number

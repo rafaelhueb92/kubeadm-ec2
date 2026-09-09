@@ -18,6 +18,8 @@ resource "aws_autoscaling_group" "this" {
     max_healthy_percentage = var.auto_scalling_group.instance_maintenance_policy.max_healthy_percentage
   }
 
+  suspended_processes = var.auto_scalling_group.suspended_processes
+
   dynamic "tag" {
     for_each = var.auto_scalling_group.instance_tags
 

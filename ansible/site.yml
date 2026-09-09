@@ -8,27 +8,46 @@
     - kube-packages
     - container-runtime
 
-- name: KubeAdm Init First Control Plane
+- name: Init Cluster
   hosts: control_planes[0]
   become: true
   environment:
-    KUBECONFIG: /etc/kubernetes/admin.conf
+    KUBECONFIG: "{{kube_config}}"
   roles:
     - init-cluster
+    - set-provider-id
     - container-network
 
 - name: Join Control Plane Nodes to Cluster
   hosts: control_planes[1:]
   become: true
   environment:
-    KUBECONFIG: /etc/kubernetes/admin.conf
+    KUBECONFIG: "{{kube_config}}"
   roles:
     - join-control-planes
+    - set-provider-id
 
 - name: Join Worker Nodes to Cluster
   hosts: workers
   become: true
   environment:
-    KUBECONFIG: /etc/kubernetes/admin.conf
+    KUBECONFIG: "{{kube_config_worker}}"
   roles:
     - join-workers
+    - set-provider-id
+
+- name: Update Launch Template
+  hosts: localhost
+  become: false
+  roles:
+    - update-launch-template
+
+- name: Setting up Cluster AutoScaler
+  hosts: control_planes[0]
+  become: true
+  environment:
+    KUBECONFIG: "{{kube_config}}"
+  roles:
+    - cloud-controller
+    - node-termination
+    - cluster-autoscaler

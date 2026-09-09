@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "allow_access_from_instances" {
   statement {
     principals {
       type        = "AWS"
-      identifiers = [aws_iam_role.role.arn]
+      identifiers = [aws_iam_role.instance_role.arn]
     }
 
     actions = [

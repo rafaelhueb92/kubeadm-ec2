@@ -25,10 +25,15 @@ module "ec2_worker_instance" {
     health_check_type         = var.worker_auto_scalling_group.health_check_type
     vpc_zone_identifier       = module.network.private_subnet_ids
     target_group_arns         = []
+    suspended_processes       = ["AZRebalance"]
     instance_tags = merge(
       var.tags,
       { PatchGroup = var.patch_group },
-      var.worker_auto_scalling_group.instance_tags
+      var.worker_auto_scalling_group.instance_tags,
+      { "k8s.io/cluster-autoscaler/enabled" = "true" },
+      { "aws-node-termination-handler/enabled" = true },
+      { "k8s.io/cluster-autoscaler/${local.cluster_name}" = "owned" },
+      { "kubernetes.io/cluster/${local.cluster_name}" = "owned" }
     )
     instance_maintenance_policy = {
       min_healthy_percentage = var.worker_auto_scalling_group.instance_maintenance_policy.min_healthy_percentage
