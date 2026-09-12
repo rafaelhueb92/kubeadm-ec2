@@ -77,6 +77,6 @@ resource "aws_iam_policy" "controller_manager" {
 }
 
 resource "aws_iam_role_policy_attachment" "controller_manager" {
-  role       = aws_iam_role.node_termination_handler.name
+  role       = aws_iam_role.instance_role.name
   policy_arn = aws_iam_policy.controller_manager.arn
 }
